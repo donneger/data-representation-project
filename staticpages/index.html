@@ -9,8 +9,9 @@
 
             table, th, td {
             border: 1px solid black;
+            padding: 5px;
             }
-           
+            h2 {text-align: center;}
         </style>
         <body>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -21,21 +22,33 @@
             <h2>Create-Edit</h2>
             <table id="createUpdateForm">
                 <tr>
-                   <td>ISBN</td>
-                   <td><inPut type = "text" name="ISBN" id ="idInput"></td>
+                   <td>id</td>
+                   <td><inPut type = "text" name="id" id ="idInput"></td>
                 </tr>
                 <tr>
-                   <td>title</td>
-                   <td><inPut type = "text" name="title"></td>
+                   <td>Member Name</td>
+                   <td><inPut type = "text" name="membername"></td>
                 </tr>
                 <tr>
-                   <td>author</td>
-                   <td><inPut type = "text" name="author"></td>
+                   <td>Age</td>
+                   <td><inPut type = "text" name="age"></td>
                 </tr>
                 <tr>
-                   <td>price</td>
-                   <td><inPut type = "currency" name="price"></td>
+                   <td>Class</td>
+                   <td><inPut type = "text" name="class"></td>
                 </tr>
+                <tr>
+                    <td>Class Date</td>
+                    <td><inPut type = "date" name="classdate"></td>
+                 </tr>
+                 <tr>
+                    <td>Class Time</td>
+                    <td><inPut type = "time" name="classtime"></td>
+                 </tr>
+                 <tr>
+                    <td>Instructor</td>
+                    <td><inPut type = "text" name="Instructor"></td>
+                 </tr>
                 <tr>
                    <td></td><td><button id ="create-button" onclick="doCreate()">Create</button></td>
                    <td></td><td><button id ="update-button" onclick="doUpdate()">Update</button></td>
@@ -43,11 +56,12 @@
             </table>  
         </div> 
          <div id="display">
-             <h2>Books</h2>
-             <button onclick="showCreate()">Create</button>
-             <table id = "bookTable" style="width:70%">
+             <h2>Gym Bookings System</h2>
+             <button onclick="showCreate()">Create Class Booking</button>
+             <p></p>
+             <table id = "bookingTable" style="width:70%">
                 <tr>
-                    <th>ISBN</th><th>Title</th><th>author</th><th>price</th><th><th></th></th>
+                    <th>id</th><th>Member Name</th><th>Age</th><th>Class</th><th>Class Date</th><th>Class Time</th><th>Instructor</th><th><th></th></th>
                 </tr>
                 
             </table>
@@ -63,8 +77,8 @@
 
              function showUpdate(thisElem){
                 var rowElement = thisElem.parentNode.parentNode;
-                book = readBookFromRow(rowElement)
-                populateForm(book)
+                booking = readBookingFromRow(rowElement)
+                populateForm(booking)
                 
                 document.getElementById('display').style.display = "none"
                 document.getElementById('update-button').style.display = "block"
@@ -73,32 +87,35 @@
              }
     
 
-             function readBookFromRow(rowElement){
-                book={}
-                book.ISBN = rowElement.getAttribute("id");
-                book.title = rowElement.cells[1].firstChild.textContent
-                book.author = rowElement.cells[2].firstChild.textContent
-                book.price = rowElement.cells[3].firstChild.textContent
-                return book
+             function readBookingFromRow(rowElement){
+                booking={}
+                booking.id = rowElement.getAttribute("id");
+                booking.membername = rowElement.cells[1].firstChild.textContent
+                booking.age = rowElement.cells[2].firstChild.textContent
+                booking.class = rowElement.cells[3].firstChild.textContent
+                booking.classdate = rowElement.cells[4].firstChild.textContent
+                booking.classtime = rowElement.cells[4].firstChild.textContent
+                booking.instructor = rowElement.cells[6].firstChild.textContent
+                return booking
              }
 
 
             function doUpdate(){
-                book = getBookFromForm()
-                updateServer(book)              
+                booking = getBookFromForm()
+                updateServer(booking)              
             }
 
 
-            function updateServer(book){
+            function updateServer(booking){
                 $.ajax({
-                    url:'http://127.0.0.1:5000/books/'+book.ISBN,
-                    data:JSON.stringify(book),
+                    url:'http://127.0.0.1:5000/gymbooking/'+booking.id,
+                    data:JSON.stringify(booking),
                     method:'PUT',
                     dataType:'JSON',
                     contentType:"application/json; charset=utf-8",
                     success:function(results){
                         console.log("update", results)
-                        updateTableRow(book)
+                        updateTableRow(booking)
                         showDisplay()
                         clearForm()
                     },
@@ -110,43 +127,52 @@
             }
 
 
-            function updateTableRow(book){
-                rowElement = document.getElementById(book.ISBN)
-                rowElement.cells[1].firstChild.textContent = book.title
-                rowElement.cells[2].firstChild.textContent = book.author
-                rowElement.cells[3].firstChild.textContent = book.price
+            function updateTableRow(booking){
+                rowElement = document.getElementById(booking.id)
+                rowElement.cells[1].firstChild.textContent = booking.membername
+                rowElement.cells[2].firstChild.textContent = booking.age
+                rowElement.cells[3].firstChild.textContent = booking.class
+                rowElement.cells[4].firstChild.textContent = booking.classdate
+                rowElement.cells[5].firstChild.textContent = booking.classtime
+                rowElement.cells[6].firstChild.textContent = booking.instructor
             }
 
 
-             function populateForm(book){
+             function populateForm(booking){
                 var form = document.getElementById('createUpdateForm')
-                form.querySelector('input[name="ISBN"]').value = book.ISBN
-                form.querySelector('input[name="ISBN"]').disabled = true
-                form.querySelector('input[name="title"]').value = book.title
-                form.querySelector('input[name="author"]').value = book.author
-                form.querySelector('input[name="price"]').value = book.price
+                form.querySelector('input[name="id"]').value = booking.id
+                form.querySelector('input[name="id"]').disabled = true
+                form.querySelector('input[name="membername"]').value = booking.membername
+                form.querySelector('input[name="age"]').value = booking.age
+                form.querySelector('input[name="class"]').value = booking.class
+                form.querySelector('input[name="classdate"]').value = booking.classdate
+                form.querySelector('input[name="classtime"]').value = booking.classtime
+                form.querySelector('input[name="instructor"]').value = booking.instructor
              }
 
 
              function clearForm(){
                 var form = document.getElementById('createUpdateForm')
-                form.querySelector('input[name="ISBN"]').value = ''
-                form.querySelector('input[name="ISBN"]').disabled = false
-                form.querySelector('input[name="title"]').value = ''
-                form.querySelector('input[name="author"]').value = ''
-                form.querySelector('input[name="price"]').value = ''
+                form.querySelector('input[name="id"]').value = ''
+                form.querySelector('input[name="id"]').disabled = false
+                form.querySelector('input[name="membername"]').value = ''
+                form.querySelector('input[name="age"]').value = ''
+                form.querySelector('input[name="class"]').value = ''
+                form.querySelector('input[name="classdate"]').value = ''
+                form.querySelector('input[name="classtime"]').value = ''
+                form.querySelector('input[name="instructor"]').value = ''
              }
 
              function doCreate(){
-                book = getBookFromForm()
+                booking = getBookFromForm()
                 $.ajax({
-                    url:'http://127.0.0.1:5000/books',
-                    data:JSON.stringify(book),
+                    url:'http://127.0.0.1:5000/gymbooking',
+                    data:JSON.stringify(booking),
                     method:'POST',
                     dataType:'JSON',
                     contentType:"application/json; charset=utf-8",
                     success:function(results){
-                        addbookToTable(book)
+                        addbookToTable(booking)
                         showDisplay()
                         clearForm()
                     },
@@ -163,9 +189,9 @@
                 var tableElement = document.getElementById('bookTable');
                 var rowElement = thisElem.parentNode.parentNode;
                 var index = rowElement.rowIndex;
-                ISBN = rowElement.getAttribute("id");
+                id = rowElement.getAttribute("id");
                 $.ajax({
-                    url:"http://127.0.0.1:5000/books/"+ISBN,
+                    url:"http://127.0.0.1:5000/gymbooking/"+id,
                     method : "DELETE",
                     dataType:"JSON",
                     success:function(results){
@@ -188,12 +214,12 @@
             function populateTable(){
                 //ajax get all
                 $.ajax({
-                    url:'http://127.0.0.1:5000/books',
+                    url:'http://127.0.0.1:5000/gymbooking',
                     method:'GET',
                     dataType:'JSON',
                     success:function(results){
-                        for (book of results){
-                            addbookToTable(book)
+                        for (booking of results){
+                            addbookToTable(booking)
 
                         }
                     }
@@ -203,31 +229,40 @@
 
             function getBookFromForm(){
                 var form = document.getElementById('createUpdateForm')
-                book={}
-                book.ISBN = form.querySelector('input[name="ISBN"]').value
-                book.title = form.querySelector('input[name="title"]').value
-                book.author = form.querySelector('input[name="author"]').value
-                book.price = form.querySelector('input[name="price"]').value
-                return book
+                booking={}
+                booking.id = form.querySelector('input[name="id"]').value
+                booking.membername = form.querySelector('input[name="membername"]').value
+                booking.age = form.querySelector('input[name="age"]').value
+                booking.class = form.querySelector('input[name="class"]').value
+                booking.classdate = form.querySelector('input[name="classdate"]').value
+                booking.classtime = form.querySelector('input[name="classtime"]').value
+                booking.instructor = form.querySelector('input[name="instructor"]').value
+                return booking
             }
 
 
-            function addbookToTable(book){
-                tableElem = document.getElementById("bookTable")
+            function addbookingToTable(booking){
+                tableElem = document.getElementById("bookingTable")
                 rowElem = tableElem.insertRow(-1)
-                rowElem.setAttribute("id",book.ISBN)
+                rowElem.setAttribute("id",booking.id)
                 cell1 = rowElem.insertCell(0)
-                cell1.innerHTML = book.ISBN
+                cell1.innerHTML = booking.id
                 cell2 = rowElem.insertCell(1)
-                cell2.innerHTML = book.title
+                cell2.innerHTML = booking.membername
                 cell3 = rowElem.insertCell(2)
-                cell3.innerHTML = book.author
+                cell3.innerHTML = booking.age
                 cell4 = rowElem.insertCell(3)
-                cell4.innerHTML = book.price
+                cell4.innerHTML = booking.class
+                cell4 = rowElem.insertCell(3)
+                cell4.innerHTML = booking.classdate
+                cell4 = rowElem.insertCell(3)
+                cell4.innerHTML = booking.classtime
+                cell4 = rowElem.insertCell(3)
+                cell4.innerHTML = booking.instructor
                 cell5 = rowElem.insertCell(4)
-                cell5.innerHTML = '<button onclick="showUpdate(this)">Update</button>'
+                cell5.innerHTML = '<button onclick="showUpdate(this)">Update Booking</button>'
                 cell6 = rowElem.insertCell(5)
-                cell6.innerHTML = '<button onclick="doDelete(this)">Delete</button>'
+                cell6.innerHTML = '<button onclick="doDelete(this)">Delete Booking</button>'
             }
 
             populateTable()
