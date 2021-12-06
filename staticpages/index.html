@@ -39,15 +39,15 @@
                 </tr>
                 <tr>
                     <td>Class Date</td>
-                    <td><inPut type = "date" name="classdate"></td>
+                    <td><inPut type = "text" name="classdate"></td>
                  </tr>
                  <tr>
                     <td>Class Time</td>
-                    <td><inPut type = "time" name="classtime"></td>
+                    <td><inPut type = "text" name="classtime"></td>
                  </tr>
                  <tr>
                     <td>Instructor</td>
-                    <td><inPut type = "text" name="Instructor"></td>
+                    <td><inPut type = "text" name="instructor"></td>
                  </tr>
                 <tr>
                    <td></td><td><button id ="create-button" onclick="doCreate()">Create</button></td>
@@ -78,6 +78,7 @@
              function showUpdate(thisElem){
                 var rowElement = thisElem.parentNode.parentNode;
                 booking = readBookingFromRow(rowElement)
+                // console.log(booking)
                 populateForm(booking)
                 
                 document.getElementById('display').style.display = "none"
@@ -94,14 +95,14 @@
                 booking.age = rowElement.cells[2].firstChild.textContent
                 booking.class = rowElement.cells[3].firstChild.textContent
                 booking.classdate = rowElement.cells[4].firstChild.textContent
-                booking.classtime = rowElement.cells[4].firstChild.textContent
+                booking.classtime = rowElement.cells[5].firstChild.textContent
                 booking.instructor = rowElement.cells[6].firstChild.textContent
                 return booking
              }
 
 
             function doUpdate(){
-                booking = getBookFromForm()
+                booking = getBookingFromForm()
                 updateServer(booking)              
             }
 
@@ -164,7 +165,8 @@
              }
 
              function doCreate(){
-                booking = getBookFromForm()
+                booking = getBookingFromForm()
+                console.log(booking)
                 $.ajax({
                     url:'http://127.0.0.1:5000/gymbooking',
                     data:JSON.stringify(booking),
@@ -172,7 +174,7 @@
                     dataType:'JSON',
                     contentType:"application/json; charset=utf-8",
                     success:function(results){
-                        addbookToTable(booking)
+                        addbookingToTable(booking)
                         showDisplay()
                         clearForm()
                     },
@@ -202,6 +204,7 @@
                     }
                 }
                 )
+                
              }
 
 
@@ -219,7 +222,7 @@
                     dataType:'JSON',
                     success:function(results){
                         for (booking of results){
-                            addbookToTable(booking)
+                            addbookingToTable(booking)
 
                         }
                     }
@@ -227,7 +230,7 @@
             }
     
 
-            function getBookFromForm(){
+            function getBookingFromForm(){
                 var form = document.getElementById('createUpdateForm')
                 booking={}
                 booking.id = form.querySelector('input[name="id"]').value
@@ -253,15 +256,15 @@
                 cell3.innerHTML = booking.age
                 cell4 = rowElem.insertCell(3)
                 cell4.innerHTML = booking.class
-                cell4 = rowElem.insertCell(3)
+                cell4 = rowElem.insertCell(4)
                 cell4.innerHTML = booking.classdate
-                cell4 = rowElem.insertCell(3)
+                cell4 = rowElem.insertCell(5)
                 cell4.innerHTML = booking.classtime
-                cell4 = rowElem.insertCell(3)
+                cell4 = rowElem.insertCell(6)
                 cell4.innerHTML = booking.instructor
-                cell5 = rowElem.insertCell(4)
+                cell5 = rowElem.insertCell(7)
                 cell5.innerHTML = '<button onclick="showUpdate(this)">Update Booking</button>'
-                cell6 = rowElem.insertCell(5)
+                cell6 = rowElem.insertCell(8)
                 cell6.innerHTML = '<button onclick="doDelete(this)">Delete Booking</button>'
             }
 
