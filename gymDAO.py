@@ -34,17 +34,17 @@ class GymDAO:
         cursor.execute(sql)
         results = cursor.fetchall()
         returnArray = []
-        print('results from getall are',results)
+        #print('results from getall are',results)
         for result in results:
             resultAsDict=self.convertToDict(result)
             returnArray.append(resultAsDict)
         return returnArray
 
     
-    def findById(self, membername):
+    def findById(self, id):
         cursor = self.db.cursor()
-        sql = 'select * from gymbooking where membername = %s'
-        values=[membername]
+        sql = 'select * from gymbooking where id = %s'
+        values=[id]
         cursor.execute(sql, values)
         result=cursor.fetchone()
         #print('results from findby are',result)
