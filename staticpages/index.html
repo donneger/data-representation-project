@@ -7,10 +7,45 @@
                 background-size: cover;
             }
 
-            table, th, td {
+            table {
+            border: 2px solid black;
+            padding: 5px;
+            text-align: center;
+            }
+            th {
+            border: 2px solid black;
+            padding: 5px;
+            text-align: center;
+            color: blue;
+            background-color: khaki;
+            }
+            td {
             border: 1px solid black;
             padding: 5px;
+            text-align: center;
+            color: black;  
             }
+            
+            .button {
+                background-color: #4CAF50; /* Green */
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+}
+
+        .create-button {background-color:#4CAF50}
+        .update-button {background-color:darkorange}
+        .delete-button {background-color:crimson}
+        .cancel-button {background-color:yellow}
+
+
+
             h2 {text-align: center;}
         </style>
         <body>
@@ -19,7 +54,7 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         
         <div id="create-update" style="display: none">
-            <h2>Create-Edit</h2>
+            <h2>Create New Booking - Edit Existing Booking</h2>
             <table id="createUpdateForm">
                 <tr>
                    <td>id</td>
@@ -39,7 +74,7 @@
                 </tr>
                 <!-- <tr>
                     <td>Class</td>
-                    <td input type= 'querySelector' name="class">
+                    <td input type = text name="class">
                     <select>        
                         <option value="Select Class">Select Class</option>
                         <option value="Yoga">Yoga</option>
@@ -64,15 +99,15 @@
                     <td><inPut type = "text" name="instructor"></td>
                  </tr>
                 <tr>
-                   <td></td><td><button id ="create-button" onclick="doCreate()">Create</button></td>
-                   <td></td><td><button id ="update-button" onclick="doUpdate()">Update</button></td>
-                   <td></td><td><button id ="cancel-button" onclick="doCancel()">Cancel</button></td>
+                   <td></td><td><button id ="create-button" onclick="doCreate()" class=button create-button>Create</button></td>
+                   <td></td><td><button id ="update-button" onclick="doUpdate()" class=button update-button>Update</button></td>
+                   <td></td><td><button id ="cancel-button" onclick="doCancel()" class=button delete-button>Cancel</button></td>
                 </tr>
             </table>  
         </div> 
          <div id="display">
              <h2>Gym Bookings System</h2>
-             <button onclick="showCreate()">Create Class Booking</button>
+             <button onclick="showCreate()" class=button>Create Class Booking</button>
              <p></p>
              <table id = "bookingTable" style="width:70%">
                 <tr>
@@ -149,7 +184,7 @@
                 )       
             }
 
-
+            
             function updateTableRow(booking){
                 rowElement = document.getElementById(booking.id)
                 rowElement.cells[1].firstChild.textContent = booking.membername
