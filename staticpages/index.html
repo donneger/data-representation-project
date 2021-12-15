@@ -60,7 +60,6 @@
             <h2 style=color:blue>Create New Booking - Edit Existing Booking</h2>
             <table id="createUpdateForm">
                 <tr>
-                   <!-- <td>id</td> -->
                    <td><inPut type = "hidden" name="id" id ="idInput"></td>
                 </tr>
                 <tr>
@@ -211,13 +210,10 @@
                 form.querySelector('input[name="id"]').disabled = true
                 form.querySelector('input[name="membername"]').value = booking.membername
                 form.querySelector('input[name="age"]').value = booking.age
-                //form.querySelector('input[name="class"]').value = booking.class
                 document.getElementById("class").value = booking.class
                 form.querySelector('input[name="classdate"]').value = booking.classdate
                 form.querySelector('input[name="classtime"]').value = booking.classtime
-                //form.querySelector('input[name="instructor"]').value = booking.instructor
                 document.getElementById("instructor").value = booking.instructor
-
              }
 
 
@@ -285,7 +281,6 @@
 
 
             function populateTable(){
-                //ajax get all
                 $.ajax({
                     url:'http://127.0.0.1:5000/gymbooking',
                     method:'GET',
@@ -307,11 +302,9 @@
                 form.querySelector('input[name="id"]').disabled = true
                 booking.membername = form.querySelector('input[name="membername"]').value
                 booking.age = form.querySelector('input[name="age"]').value
-                //booking.class = form.querySelector('input[name="class"]').value
                 booking.class = document.getElementById("class").value
                 booking.classdate = form.querySelector('input[name="classdate"]').value
                 booking.classtime = form.querySelector('input[name="classtime"]').value
-                //booking.instructor = form.querySelector('input[name="instructor"]').value
                 booking.instructor = document.getElementById("instructor").value
                 return booking
             }
