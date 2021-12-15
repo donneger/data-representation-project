@@ -23,7 +23,7 @@
             <table id="createUpdateForm">
                 <tr>
                    <td>id</td>
-                   <td><inPut type = "text" name="id" id ="idInput"></td>
+                   <td><inPut type = "hidden" name="id" id ="idInput"></td>
                 </tr>
                 <tr>
                    <td>Member Name</td>
@@ -37,6 +37,20 @@
                    <td>Class</td>
                    <td><inPut type = "text" name="class"></td>
                 </tr>
+                <!-- <tr>
+                    <td>Class</td>
+                    <td input type= 'querySelector' name="class">
+                    <select>        
+                        <option value="Select Class">Select Class</option>
+                        <option value="Yoga">Yoga</option>
+                        <option value="Spin">Spin</option>
+                        <option value="Weights">Weights</option>
+                        <option value="Stretch">Stretch</option>
+                    </select>
+                </td>
+                 </tr> -->
+
+                 
                 <tr>
                     <td>Class Date</td>
                     <td><inPut type = "text" name="classdate"></td>
@@ -52,6 +66,7 @@
                 <tr>
                    <td></td><td><button id ="create-button" onclick="doCreate()">Create</button></td>
                    <td></td><td><button id ="update-button" onclick="doUpdate()">Update</button></td>
+                   <td></td><td><button id ="cancel-button" onclick="doCancel()">Cancel</button></td>
                 </tr>
             </table>  
         </div> 
@@ -107,6 +122,12 @@
             }
 
 
+            function doCancel(){
+                    showDisplay()
+                    clearForm()     
+            }
+
+
             function updateServer(booking){
                 $.ajax({
                     url:'http://127.0.0.1:5000/gymbooking/'+booking.id,
@@ -119,6 +140,7 @@
                         updateTableRow(booking)
                         showDisplay()
                         clearForm()
+                        
                     },
                     error:function(xhr, status, error){
                             console.log("error"+error)
@@ -158,7 +180,7 @@
                 form.querySelector('input[name="id"]').disabled = false
                 form.querySelector('input[name="membername"]').value = ''
                 form.querySelector('input[name="age"]').value = ''
-                form.querySelector('input[name="class"]').value = ''
+                //form.querySelector('input[name="class"]').value = ''
                 form.querySelector('input[name="classdate"]').value = ''
                 form.querySelector('input[name="classtime"]').value = ''
                 form.querySelector('input[name="instructor"]').value = ''
@@ -177,6 +199,8 @@
                         addbookingToTable(booking)
                         showDisplay()
                         clearForm()
+                        location.reload()
+                        
                     },
                     error:function(xhr, ststus, error){
                             console.log("error"+error)
@@ -188,7 +212,7 @@
 
 
             function doDelete(thisElem){
-                var tableElement = document.getElementById('bookTable');
+                var tableElement = document.getElementById('bookingTable');
                 var rowElement = thisElem.parentNode.parentNode;
                 var index = rowElement.rowIndex;
                 id = rowElement.getAttribute("id");
@@ -197,7 +221,7 @@
                     method : "DELETE",
                     dataType:"JSON",
                     success:function(results){
-                        tableElement.deleteRow(index);
+                        tableElement.deleteRow(index)
                     },
                     error:function(xhr, status, error){
                         console.log(error)
@@ -234,6 +258,7 @@
                 var form = document.getElementById('createUpdateForm')
                 booking={}
                 booking.id = form.querySelector('input[name="id"]').value
+                form.querySelector('input[name="id"]').disabled = true
                 booking.membername = form.querySelector('input[name="membername"]').value
                 booking.age = form.querySelector('input[name="age"]').value
                 booking.class = form.querySelector('input[name="class"]').value
