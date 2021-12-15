@@ -1,3 +1,7 @@
+# Program for running server for Gym Booking System.
+# Author: Gerry Donnelly Dec 2021
+
+# Import the relevant modules.
 from flask import Flask, url_for, request, redirect, abort, jsonify
 from gymDAO import gymDao
 from datetime import date, datetime
@@ -5,24 +9,23 @@ from datetime import date, datetime
 app = Flask(__name__, static_url_path='', static_folder='staticpages')
 
 
-nextid=5
 #Home Page
 @app.route('/')
 def index():
-    return "hello world"
+    return 'hello, please navigate to http://127.0.0.1:5000/index.html to access the Gym Booking site'
 
-# Get all Data
+# Get all the Data from the bookings database.
 @app.route('/gymbooking')
 def getAll():
     return jsonify(gymDao.getAll())
 
-# Get a specific record
+# Get a specific booking from the database.
 @app.route('/gymbooking/<int:id>')
 def findById(ISBN):
     return jsonify(gymDao.findById(id))
 
 
-# Add a new record
+# Add a new booking to the database.
 @app.route('/gymbooking', methods = ['POST'])
 def create():
     if not request.json:
@@ -37,7 +40,7 @@ def create():
     }
     return jsonify(gymDao.create(booking))
 
-# Update a record
+# Update an existing gym booking record.
 @app.route('/gymbooking/<int:id>', methods = ['PUT'])
 def update(id):
     foundBooking = gymDao.findById(id)
@@ -60,7 +63,7 @@ def update(id):
     gymDao.update(currentBooking)
     return jsonify(currentBooking)
 
-# Delete a record
+# Delete a gym booking record.
 @app.route('/gymbooking/<int:id>', methods = ['DELETE'])
 def delete(id):
     foundBooking = gymDao.findById(id)
@@ -72,5 +75,4 @@ def delete(id):
 
 
 if __name__ == "__main__":
-    print("in if")
     app.run(debug=True)
