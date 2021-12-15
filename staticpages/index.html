@@ -1,7 +1,6 @@
 <html>
     <head>
         <style>
-
             body {
                 background-image: url('https://i2.wp.com/balanced.training/wp-content/uploads/2016/11/Gym-Background.jpg?ssl=1');
                 background-size: cover;
@@ -27,8 +26,10 @@
             }
             
             .button {
-                background-color: #4CAF50; /* Green */
+                background-color:green;
                 border: none;
+                border-radius: 12px;
+                transition-duration: 0.4s;
                 color: white;
                 padding: 15px 32px;
                 text-align: center;
@@ -39,14 +40,16 @@
                 cursor: pointer;
 }
 
-        .create-button {background-color:#4CAF50}
-        .update-button {background-color:darkorange}
+        .create-button {background-color:green}
+        .update-button {background-color:green}
         .delete-button {background-color:crimson}
-        .cancel-button {background-color:yellow}
+        .cancel-button {background-color:orange}
+        .showUpdate {background-color:blue}
+        .doDelete {background-color:crimson}
 
+        h1 {border-style:solid; border-color:darkblue; background-color:rgb(226, 240, 102);text-align: center;}
+        h2 {border-style:solid; border-color:darkblue; background-color:rgb(226, 240, 102);text-align: center;}
 
-
-            h2 {text-align: center;}
         </style>
         <body>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -54,10 +57,10 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         
         <div id="create-update" style="display: none">
-            <h2>Create New Booking - Edit Existing Booking</h2>
+            <h2 style=color:blue>Create New Booking - Edit Existing Booking</h2>
             <table id="createUpdateForm">
                 <tr>
-                   <td>id</td>
+                   <!-- <td>id</td> -->
                    <td><inPut type = "hidden" name="id" id ="idInput"></td>
                 </tr>
                 <tr>
@@ -69,49 +72,56 @@
                    <td><inPut type = "text" name="age"></td>
                 </tr>
                 <tr>
-                   <td>Class</td>
-                   <td><inPut type = "text" name="class"></td>
-                </tr>
-                <!-- <tr>
                     <td>Class</td>
-                    <td input type = text name="class">
-                    <select>        
-                        <option value="Select Class">Select Class</option>
+                    <td><select style="width:fit-content" name="class" id="class">         
+                        <option value="Select Class">---Select Class---</option>
                         <option value="Yoga">Yoga</option>
                         <option value="Spin">Spin</option>
                         <option value="Weights">Weights</option>
-                        <option value="Stretch">Stretch</option>
+                        <option value="Pilates">Pilates</option>
+                        <option value="Zumba">Zumba</option>
+                        <option value="Step">Step</option>
+                        <option value="Aerobocs">Aerobics</option>
                     </select>
                 </td>
-                 </tr> -->
+                 </tr>
 
                  
                 <tr>
-                    <td>Class Date</td>
+                    <td>Class Date (dd/mm/yyyy)</td>
                     <td><inPut type = "text" name="classdate"></td>
                  </tr>
                  <tr>
-                    <td>Class Time</td>
+                    <td>Class Time (hh:mm)</td>
                     <td><inPut type = "text" name="classtime"></td>
                  </tr>
                  <tr>
                     <td>Instructor</td>
-                    <td><inPut type = "text" name="instructor"></td>
+                        <td><select style="width:fit-content" name="instructor" id="instructor">         
+                            <option value="Select Instructor">---Select Instructor---</option>
+                            <option value="Matt">Matt</option>
+                            <option value="Scott">Scott</option>
+                            <option value="Ben">Ben</option>
+                            <option value="Ciara">Ciara</option>
+                            <option value="Sharon">Sharon</option>
+                        </select>
+                    </td>    
+
                  </tr>
                 <tr>
-                   <td></td><td><button id ="create-button" onclick="doCreate()" class=button create-button>Create</button></td>
-                   <td></td><td><button id ="update-button" onclick="doUpdate()" class=button update-button>Update</button></td>
-                   <td></td><td><button id ="cancel-button" onclick="doCancel()" class=button delete-button>Cancel</button></td>
+                   <td><button id ="create-button" onclick="doCreate()" class="button create-button">Create Booking</button></td>
+                   <td><button id ="update-button" onclick="doUpdate()" class="button update-button">Update Booking</button></td>
+                   <td><button id ="cancel-button" onclick="doCancel()" class="button cancel-button">Cancel</button></td>
                 </tr>
             </table>  
         </div> 
          <div id="display">
-             <h2>Gym Bookings System</h2>
-             <button onclick="showCreate()" class=button>Create Class Booking</button>
-             <p></p>
+             <h1 style = "color: blue;">Gerrys Gym Bookings System</h1>
+             <button onclick="showCreate()" class=button>Create Gym Class Booking</button>
+             <p>Click this button to create a new class booking</p>
              <table id = "bookingTable" style="width:70%">
                 <tr>
-                    <th>id</th><th>Member Name</th><th>Age</th><th>Class</th><th>Class Date</th><th>Class Time</th><th>Instructor</th><th><th></th></th>
+                    <th>id</th><th>Member Name</th><th>Age</th><th>Class</th><th>Class Date</th><th>Class Time</th><th>Instructor</th><th>Update Booking</th><th>Delete Booking</th>
                 </tr>
                 
             </table>
@@ -128,7 +138,6 @@
              function showUpdate(thisElem){
                 var rowElement = thisElem.parentNode.parentNode;
                 booking = readBookingFromRow(rowElement)
-                // console.log(booking)
                 populateForm(booking)
                 
                 document.getElementById('display').style.display = "none"
@@ -202,10 +211,13 @@
                 form.querySelector('input[name="id"]').disabled = true
                 form.querySelector('input[name="membername"]').value = booking.membername
                 form.querySelector('input[name="age"]').value = booking.age
-                form.querySelector('input[name="class"]').value = booking.class
+                //form.querySelector('input[name="class"]').value = booking.class
+                document.getElementById("class").value = booking.class
                 form.querySelector('input[name="classdate"]').value = booking.classdate
                 form.querySelector('input[name="classtime"]').value = booking.classtime
-                form.querySelector('input[name="instructor"]').value = booking.instructor
+                //form.querySelector('input[name="instructor"]').value = booking.instructor
+                document.getElementById("instructor").value = booking.instructor
+
              }
 
 
@@ -215,15 +227,14 @@
                 form.querySelector('input[name="id"]').disabled = false
                 form.querySelector('input[name="membername"]').value = ''
                 form.querySelector('input[name="age"]').value = ''
-                //form.querySelector('input[name="class"]').value = ''
+                document.getElementById("class").value = "Select Class"
                 form.querySelector('input[name="classdate"]').value = ''
                 form.querySelector('input[name="classtime"]').value = ''
-                form.querySelector('input[name="instructor"]').value = ''
+                document.getElementById("instructor").value = 'Select Instructor'
              }
 
              function doCreate(){
                 booking = getBookingFromForm()
-                console.log(booking)
                 $.ajax({
                     url:'http://127.0.0.1:5000/gymbooking',
                     data:JSON.stringify(booking),
@@ -296,10 +307,12 @@
                 form.querySelector('input[name="id"]').disabled = true
                 booking.membername = form.querySelector('input[name="membername"]').value
                 booking.age = form.querySelector('input[name="age"]').value
-                booking.class = form.querySelector('input[name="class"]').value
+                //booking.class = form.querySelector('input[name="class"]').value
+                booking.class = document.getElementById("class").value
                 booking.classdate = form.querySelector('input[name="classdate"]').value
                 booking.classtime = form.querySelector('input[name="classtime"]').value
-                booking.instructor = form.querySelector('input[name="instructor"]').value
+                //booking.instructor = form.querySelector('input[name="instructor"]').value
+                booking.instructor = document.getElementById("instructor").value
                 return booking
             }
 
@@ -323,9 +336,9 @@
                 cell4 = rowElem.insertCell(6)
                 cell4.innerHTML = booking.instructor
                 cell5 = rowElem.insertCell(7)
-                cell5.innerHTML = '<button onclick="showUpdate(this)">Update Booking</button>'
+                cell5.innerHTML = '<button onclick="showUpdate(this)" class="button showUpdate">Update Booking</button>'
                 cell6 = rowElem.insertCell(8)
-                cell6.innerHTML = '<button onclick="doDelete(this)">Delete Booking</button>'
+                cell6.innerHTML = '<button onclick="doDelete(this)" class="button doDelete">Delete Booking</button>'
             }
 
             populateTable()
