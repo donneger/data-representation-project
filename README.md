@@ -36,6 +36,18 @@ The following steps should be carried out to extract and run the program.
 5. Run the program **gymserver.py**. This is the main server program that runs the gym booking server. Open any browser and navigate to http://127.0.0.1:5000/ to access the gym booking system. 
    - Code for the Web interface and program is stored in the folder **staticpages** as **index.html**. 
    - The Code for the server interface functions is held in the DAO program **gymDAO.py**. 
+      - ** Note in my instance of mySQL the user = 'root', password = 'root'. 
+      - If your system setup is different change the details in the db class in the gymDAO.py program per below.**
+
+    class GymDAO:
+    db=""
+    def __init__(self):
+        self.db = mysql.connector.connect(
+        host = 'localhost',
+        **user = 'root',**
+        **password = 'root',**
+        database = 'datarepresentation'
+        )
 
 ## 3. Operating the Program
 On first starting the gymbookings table will be empty, therefore no bookings will be visible. 
