@@ -1,4 +1,5 @@
-# Progarm to create the database for the Gym Booking server. 
+# Progarm to create the database for the Gym Booking Schema. 
+# Author: Gerry Donnelly, Dec 2021
 import mysql.connector
 
 db = mysql.connector.connect(
