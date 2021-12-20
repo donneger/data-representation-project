@@ -3,7 +3,7 @@ Repository for GMIT Data Representation Project 2021
 
 This repository holds the complete project data and program code for the DR Course Winter 2021.
 
-## Summary
+## 1. Summary
 The purpose of this project is to create a web application in Flask using RESTful API's that links to a database table and allows for CRUD operations through a web page. 
 
 I have created a gym class booking application that:
@@ -22,7 +22,7 @@ This is the main page of the booking system.
 This is the Create/Update Form that is used for creating new bookings or updating existing bookings. 
 ![CRUDPage](/images/Create_UpdatePageImage.png)
 
-## Running the Program
+## 2. Running the Program
 The following steps should be carried out to extract and run the program.
 
 1. Python, mySQL and FLASK must be installed on your machine. 
@@ -37,7 +37,7 @@ The following steps should be carried out to extract and run the program.
    - Code for the Web interface and program is stored in the folder **staticpages** as **index.html**. 
    - The Code for the server interface functions is held in the DAO program **gymDAO.py**. 
 
-## Operating the Program
+## 3. Operating the Program
 On first starting the gymbookings table will be empty, therefore no bookings will be visible. 
 1. Create a Booking
    - A new booking is created by selecting the **Create Gym Class Booking**.
