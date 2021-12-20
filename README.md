@@ -29,9 +29,8 @@ The following steps should be carried out to extract and run the program.
    - If Python requires installation the best way to install is by installiong Anaconda, this contains a full python installation and all of the libraries needed to run the code. Anaconda can be installed from following [Anaconda_Link](https://www.anaconda.com/distribution/), follow the site instructions to download and install. 
    - If needed install mySQL from the following [mySQL_Link](https://www.mysql.com/products/community/), follow thw site instructions to install. 
    - Use "pip install Flask" to install FLASK if not already installed. 
-
 2. Download the complete project repository to your your machine. 
 3. If you already have a database schema called ***datarepresentation*** on your machine this step can be skipped.
-  -  Run the program pysqlcreatedb.py, this will create a schema in your mySQL instance called "datarepresentation"
-4. To create the database table for the gym bookings details run the program pysqlcreatetable.py. This will create a table called gymbookings in the datarepresentation schema. 
-5. 
+  -  Run the program pysqlcreatedb.py, this will create a schema in your mySQL instance called **datarepresentation**
+4. To create the database table for the gym bookings details run the program **pysqlcreatetable.py**. This will create a table called **gymbookings** in the **datarepresentation schema**. 
+5. Run the program **gymserver.py**. This is the main server program that runs the gym booking server. 
