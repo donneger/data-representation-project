@@ -12,7 +12,7 @@ app = Flask(__name__, static_url_path='', static_folder='staticpages')
 #Home Page
 @app.route('/')
 def index():
-    return 'hello, please navigate to http://127.0.0.1:5000/index.html to access the Gym Booking site'
+    return app.send_static_file('index.html')
 
 # Get all the Data from the bookings database.
 @app.route('/gymbooking')
