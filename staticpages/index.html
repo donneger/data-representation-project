@@ -1,5 +1,8 @@
+<!-- html program for the Gym Booking System, Author Gerry Donnelly Dec 2021 -->
 <html>
     <head>
+
+        <!-- Style section for some of the HTML elements, web page background, button shapes and colors and table formats -->
         <style>
             body {
                 background-image: url('https://i2.wp.com/balanced.training/wp-content/uploads/2016/11/Gym-Background.jpg?ssl=1');
@@ -56,6 +59,7 @@
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         
+        <!-- Setting up the table for creating and updating bookings including selection options for gym class and instructor -->
         <div id="create-update" style="display: none">
             <h2 style=color:blue>Create New Booking - Edit Existing Booking</h2>
             <table id="createUpdateForm">
@@ -114,6 +118,8 @@
                 </tr>
             </table>  
         </div> 
+
+        <!-- Main page table setup with list of bookings.  -->
          <div id="display">
              <h1 style = "color: blue;">Gerrys Gym Bookings System</h1>
              <button onclick="showCreate()" class=button>Create Gym Class Booking</button>
@@ -125,6 +131,8 @@
                 
             </table>
          </div> 
+
+         <!-- All of the script functions are here. -->
          <script>
              function showCreate(){
                 document.getElementById('display').style.display = "none"
@@ -138,14 +146,13 @@
                 var rowElement = thisElem.parentNode.parentNode;
                 booking = readBookingFromRow(rowElement)
                 populateForm(booking)
-                
                 document.getElementById('display').style.display = "none"
                 document.getElementById('update-button').style.display = "block"
                 document.getElementById('create-button').style.display = "none"
                 document.getElementById('create-update').style.display = "block"
              }
     
-
+            //This function reads all the details of a booking for use in the booking update or delete functions. 
              function readBookingFromRow(rowElement){
                 booking={}
                 booking.id = rowElement.getAttribute("id");
@@ -158,19 +165,19 @@
                 return booking
              }
 
-
+            //Function gets the booking details and calls the updatedate server function below. 
             function doUpdate(){
                 booking = getBookingFromForm()
                 updateServer(booking)              
             }
 
-
+            //This function is called from the cancel buttion if user does not wish to create or update the booking. 
             function doCancel(){
                     showDisplay()
                     clearForm()     
             }
 
-
+            // This function updates the server with bookings updates and also calls the table update function to show the new info on the main page. 
             function updateServer(booking){
                 $.ajax({
                     url:'http://127.0.0.1:5000/gymbooking/'+booking.id,
@@ -192,7 +199,7 @@
                 )       
             }
 
-            
+            // This function populates the booking table on the main page. 
             function updateTableRow(booking){
                 rowElement = document.getElementById(booking.id)
                 rowElement.cells[1].firstChild.textContent = booking.membername
@@ -203,7 +210,7 @@
                 rowElement.cells[6].firstChild.textContent = booking.instructor
             }
 
-
+            // This function populates the booking information on the create/update booking form. the booking id is disabled for upadtes as thsi shodul not be changed. 
              function populateForm(booking){
                 var form = document.getElementById('createUpdateForm')
                 form.querySelector('input[name="id"]').value = booking.id
@@ -216,7 +223,8 @@
                 document.getElementById("instructor").value = booking.instructor
              }
 
-
+             // This function clears the create/update booking form. It is called after a create booking or update booking to ensure for is clear for next upadte. 
+             //It is also called from the cancel function if create or upadte is not proceeding. 
              function clearForm(){
                 var form = document.getElementById('createUpdateForm')
                 form.querySelector('input[name="id"]').value = ''
@@ -229,6 +237,7 @@
                 document.getElementById("instructor").value = 'Select Instructor'
              }
 
+            // This function posts the new booking to the server from the data input on the booking form.
              function doCreate(){
                 booking = getBookingFromForm()
                 $.ajax({
@@ -252,7 +261,7 @@
                 showDisplay()
              }
 
-
+            // This function posts a deletion request to the database server, on completion the booking is deleted and the bookings table is updated. 
             function doDelete(thisElem){
                 var tableElement = document.getElementById('bookingTable');
                 var rowElement = thisElem.parentNode.parentNode;
@@ -279,7 +288,7 @@
                 document.getElementById('create-update').style.display = "none"
              }
 
-
+            // Function to GET the booking information from the server and call the function to populate the booking table. 
             function populateTable(){
                 $.ajax({
                     url:'http://127.0.0.1:5000/gymbooking',
@@ -294,7 +303,7 @@
                 })                 
             }
     
-
+            //Function to get the data input on the create/update form and return it as a booking from the calling functions.
             function getBookingFromForm(){
                 var form = document.getElementById('createUpdateForm')
                 booking={}
@@ -309,7 +318,7 @@
                 return booking
             }
 
-
+            // Function to add the booking data to the table on the main page. 
             function addbookingToTable(booking){
                 tableElem = document.getElementById("bookingTable")
                 rowElem = tableElem.insertRow(-1)
